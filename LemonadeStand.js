@@ -31,10 +31,11 @@ function adjustCups(cups){
 	}
 	}
 
-function reduceMoneyFromCups(cupInput, cupCost){
+function reduceMoneyFromCups(/*cupInput, cupCost, money*/){
 	var cupPurchase;
 	cupPurchase = cupInput * cupCost
-	return(cupPurchase);
+	money -= cupPurchase
+	return(money);
 }
 	
 function adjustLemons(lemons){
@@ -53,12 +54,12 @@ function adjustLemons(lemons){
 	}
 }
 
-function reduceMoneyFromLemons(lemonInput, lemonCost){
+function reduceMoneyFromLemons(lemonInput, lemonCost, money){
 	var lemonPurchase;
 	lemonPurchase = lemonInput * lemonCost
-	return(lemonPurchase);
-}
-	
+	money -= lemonPurchase
+	return(money);
+	}
 
 function adjustSugars(sugars){
 	console.log("You currently have " + sugars + " sugars.");
@@ -77,10 +78,11 @@ function adjustSugars(sugars){
 }
 
 
-function reduceMoneyFromSugars(sugarInput, sugarCost){
+function reduceMoneyFromSugars(sugarInput, sugarCost, money){
 	var sugarPurchase;
 	sugarPurchase = sugarInput * sugarCost
-	return(sugarPurchase);
+	money -= sugarPurchase
+	return(money);
 }
 
 function adjustIce(ice){
@@ -98,10 +100,11 @@ function adjustIce(ice){
 	}
 }
 
-function reduceMoneyFromIce(sugarInput, sugarCost){
-	var sugarPurchase;
-	sugarPurchase = sugarInput * sugarCost
-	return(sugarPurchase);
+function reduceMoneyFromIce(iceInput, iceCost, money){
+	var icePurchase;
+	icePurchase = iceInput * iceCost
+	money -= icePurchase
+	return(money);
 	}
 
 function adjustPricePerCup(){
@@ -120,15 +123,14 @@ function adjustPricePerCup(){
 	}
 	}
 
-//needs subtract inventory portion
 function adjustLemonsPerPitcher(lemons){
 	console.log("You currently have " + lemons + " lemons in your recipe.");
 	while(true){
-	var lemonInput;
-	lemonInput = prompt("How many lemons would you like per pitcher?")
-	if ((lemonInput < lemons) && (lemonInput > 0)){
-	console.log("Great, you now  have " + lemonInput + " lemons in your recipe.");
-	return(lemonInput);
+	var lemonInPitcher;
+	lemonInPitcher = prompt("How many lemons would you like per pitcher?")
+	if ((lemonInPitcher < lemons) && (lemonInPitcher > 0)){
+	console.log("Great, you now  have " + lemonInPitcher + " lemons in your recipe.");
+	return(lemonInPitcher);
 	break
 	}
 	else {
@@ -137,15 +139,20 @@ function adjustLemonsPerPitcher(lemons){
 	}
 }
 
-//needs subtract inventory portion
+function reduceLemonsFromInventory(lemons){
+	var lemonsPutInPitcher;
+	lemonsPutInPitcher = lemons - lemonInPitcher
+	return(lemonsPutInPitcher);
+}
+
 function adjustSugarsPerPitcher(sugars){
 	console.log("You currently have " + sugars + " sugars in your recipe.");
 	while(true){
-	var sugarInput;
-	sugarInput = prompt("How many sugars would you like per pitcher?")
-	if ((sugarInput < sugars) && (sugarInput > 0)){
-	console.log("Great, you now  have " + sugarInput + " sugars in your recipe.");
-	return(sugarInput);
+	var sugarInPitcher;
+	sugarInPitcher = prompt("How many sugars would you like per pitcher?")
+	if ((sugarInPitcher < sugars) && (sugarInPitcher > 0)){
+	console.log("Great, you now  have " + sugarInPitcher + " sugars in your recipe.");
+	return(sugarInPitcher);
 	break
 	}
 	else {
@@ -154,21 +161,32 @@ function adjustSugarsPerPitcher(sugars){
 	}
 	}
 
-//needs subtract inventory portion
+function reduceSugarsFromInventory(sugars){
+	var sugarsPutInPitcher;
+	sugarsPutInPitcher = sugars - sugarInPitcher
+	return(sugarsPutInPitcher);
+	}
+
 function adjustIcePerPitcher(ice){
 	console.log("You currently have " + ice + " ice in your recipe.");
 	while(true){
-	var iceInput;
-	iceInput = prompt("How much ice would you like per pitcher?")
-	if ((iceInput < ice) && (iceInput > 0)){
-	console.log("Great, you now  have " + iceInput + " ice in your recipe.");
-	return(iceInput);
+	var iceInPitcher;
+	iceInPitcher = prompt("How much ice would you like per pitcher?")
+	if ((iceInPitcher < ice) && (iceInPitcher > 0)){
+	console.log("Great, you now  have " + iceInPitcher + " ice in your recipe.");
+	return(iceInPitcher);
 	break
 	}
 	else {
 	console.log("You do not have the proper amount of ice. Try again.")
 	}
 	}
+	}
+	
+function reduceIceFromInventory(ice){
+	var icePutInPitcher;
+	icePutInPitcher = ices - iceInPitcher
+	return(icePutInPitcher);
 	}
 
 function getWeather(){
@@ -184,6 +202,8 @@ function getCustomer(){
 }
 
 function runDay(){
+	var turns;
+	turns = checkNumberOfDays()
 	while (turns>0){
 	var money;
 	money = 100
@@ -208,8 +228,7 @@ function runDay(){
 
 	var daysToPlay;
 	daysToPlay = 0
-
-	var turns;
+	
 	var buyCups;
 	var buyLemons;
 	var buySugars;
@@ -220,21 +239,34 @@ function runDay(){
 	var changeIceRecipe;
 	var weatherToday;
 	var customersToday;
-	turns = checkNumberOfDays()
-	buyCups = adjustCups()
-	reduceMoneyFromCups = reduceMoneyFromCups()
+	var reduceMoneyFromCupsPurchase;
+	var reduceMoneyFromLemonsPurchase;
+	var reduceMoneyFromSugarsPurchase;
+	var reduceMoneyFromIcePurchase;
+	var reduceLemonsFromInventory;
+	var reduceSugarsFromInventory;
+	var reduceIceFromInventory;
+	buyCups = adjustCups(cups)
+	reduceMoneyFromCupsPurchase = reduceMoneyFromCups()
 	buyLemons = adjustLemons()
+	reduceMoneyFromLemonsPurchase = reduceMoneyFromLemons()
 	buySugars = adjustSugars()	
+	reduceMoneyFromSugarsPurchase = reduceMoneyFromSugars()
 	buyIce = adjustIce()	
+	reduceMoneyFromIcePurchase = reduceMoneyFromIce()
 	changePrice = adjustPricePerCup()	
-	changeLemonRecipe = adjustLemonsPerPitcher()	
+	changeLemonRecipe = adjustLemonsPerPitcher()
+	reduceLemonsFromInventory = reduceLemonsFromInventory()
 	changeSugarsRecipe = adjustSugarsPerPitcher()	
+	reduceSugarsFromInventory = reduceSugarsFromInventory()
 	changeIceRecipe = adjustIcePerPitcher()
+	reduceIceFromInventory = reduceIceFromInventory()
 	weatherToday = getWeather()
 	customersToday = getCustomer()
-	turns --
+	turns = turns - 1
 	}
 }
+	
 
 runDay();
 
