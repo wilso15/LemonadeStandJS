@@ -31,7 +31,7 @@ function adjustCups(cups){
 	}
 	}
 
-function reduceMoneyFromCups(/*cupInput, cupCost, money*/){
+function reduceMoneyFromCups(cupInput, cupCost, money){
 	var cupPurchase;
 	cupPurchase = cupInput * cupCost
 	money -= cupPurchase
@@ -77,7 +77,6 @@ function adjustSugars(sugars){
 	}
 }
 
-
 function reduceMoneyFromSugars(sugarInput, sugarCost, money){
 	var sugarPurchase;
 	sugarPurchase = sugarInput * sugarCost
@@ -107,7 +106,7 @@ function reduceMoneyFromIce(iceInput, iceCost, money){
 	return(money);
 	}
 
-function adjustPricePerCup(){
+function adjustPricePerCup(pricePerCup){
 	console.log("You're current price per cup is " + pricePerCup + " cents." )
 	while(true){
 	var priceInput;
@@ -270,19 +269,6 @@ function runDay(){
 
 runDay();
 
-// How to store money or anything
-
-// money = adjustMoney(money, whatevervariableholdsyourprofit)
-
-
-// turns = checkNumberOfDays()
-// while (turns>0){
-// call buy stuff function
-// call make lemonade
-// call weather
-// call customers
-// turns = turns -1
-// }
 
 
 
