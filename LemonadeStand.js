@@ -114,7 +114,6 @@ function adjustPricePerCup(pricePerCup){
 	if ((priceInput < 99) && (priceInput > 0)){
 	console.log("Great, your new price per cup of lemonade is " + priceInput);
 	return(priceInput);
-	break
 	}
 	else {
 	console.log("You did not keep the price within the proper range.")
@@ -124,19 +123,15 @@ function adjustPricePerCup(pricePerCup){
 
 function adjustLemonsPerPitcher(lemons){
 	console.log("You currently have " + lemons + " lemons in your recipe.");
-	while(true){
-	var lemonInPitcher;
 	lemonInPitcher = prompt("How many lemons would you like per pitcher?")
-	if ((lemonInPitcher < lemons) && (lemonInPitcher > 0)){
+	if (lemonInPitcher < lemons){
 	console.log("Great, you now  have " + lemonInPitcher + " lemons in your recipe.");
 	return(lemonInPitcher);
-	break
 	}
 	else {
 	console.log("You do not have the proper amount of lemons. Try again.")
 	}
 	}
-}
 
 function reduceLemonsFromInventory(lemons){
 	var lemonsPutInPitcher;
@@ -146,20 +141,16 @@ function reduceLemonsFromInventory(lemons){
 
 function adjustSugarsPerPitcher(sugars){
 	console.log("You currently have " + sugars + " sugars in your recipe.");
-	while(true){
-	var sugarInPitcher;
 	sugarInPitcher = prompt("How many sugars would you like per pitcher?")
-	if ((sugarInPitcher < sugars) && (sugarInPitcher > 0)){
+	if (sugarInPitcher < sugars){
 	console.log("Great, you now  have " + sugarInPitcher + " sugars in your recipe.");
 	return(sugarInPitcher);
-	break
 	}
 	else {
 	console.log("You do not have the proper amount of sugars. Try again.")
 	}
 	}
-	}
-
+	
 function reduceSugarsFromInventory(sugars){
 	var sugarsPutInPitcher;
 	sugarsPutInPitcher = sugars - sugarInPitcher
@@ -168,23 +159,19 @@ function reduceSugarsFromInventory(sugars){
 
 function adjustIcePerPitcher(ice){
 	console.log("You currently have " + ice + " ice in your recipe.");
-	while(true){
-	var iceInPitcher;
 	iceInPitcher = prompt("How much ice would you like per pitcher?")
 	if ((iceInPitcher < ice) && (iceInPitcher > 0)){
 	console.log("Great, you now  have " + iceInPitcher + " ice in your recipe.");
 	return(iceInPitcher);
-	break
 	}
 	else {
 	console.log("You do not have the proper amount of ice. Try again.")
 	}
 	}
-	}
 	
 function reduceIceFromInventory(ice){
 	var icePutInPitcher;
-	icePutInPitcher = ices - iceInPitcher
+	icePutInPitcher = ice - iceInPitcher
 	return(icePutInPitcher);
 	}
 
@@ -207,6 +194,15 @@ function runDay(){
 	var money;
 	money = 100
 
+	var lemonInPitcher;
+	lemonInPitcher = 0;
+	
+	var sugarInPitcher;
+	sugarInPitcher = 0;
+	
+	var iceInPitcher;
+	iceInPitcher = 0;
+	
 	var profit;
 	profit = 0
 
@@ -242,9 +238,9 @@ function runDay(){
 	var reduceMoneyFromLemonsPurchase;
 	var reduceMoneyFromSugarsPurchase;
 	var reduceMoneyFromIcePurchase;
-	var reduceLemonsFromInventory;
-	var reduceSugarsFromInventory;
-	var reduceIceFromInventory;
+	var reduceLemonsFrInventory;
+	var reduceSugarsFrInventory;
+	var reduceIceFrInventory;
 	buyCups = adjustCups(cups)
 	reduceMoneyFromCupsPurchase = reduceMoneyFromCups()
 	buyLemons = adjustLemons()
@@ -254,12 +250,12 @@ function runDay(){
 	buyIce = adjustIce()	
 	reduceMoneyFromIcePurchase = reduceMoneyFromIce()
 	changePrice = adjustPricePerCup()	
-	changeLemonRecipe = adjustLemonsPerPitcher()
-	reduceLemonsFromInventory = reduceLemonsFromInventory()
+	changeLemonRecipe = adjustLemonsPerPitcher(lemons)
+	reduceLemonsFrInventory = reduceLemonsFromInventory()
 	changeSugarsRecipe = adjustSugarsPerPitcher()	
-	reduceSugarsFromInventory = reduceSugarsFromInventory()
+	reduceSugarsFrInventory = reduceSugarsFromInventory()
 	changeIceRecipe = adjustIcePerPitcher()
-	reduceIceFromInventory = reduceIceFromInventory()
+	reduceIceFrInventory = reduceIceFromInventory()
 	weatherToday = getWeather()
 	customersToday = getCustomer()
 	turns = turns - 1
